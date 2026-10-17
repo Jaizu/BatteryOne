@@ -87,6 +87,9 @@ namespace BatteryOne
 
             var release = _app.LatestRelease;
             string notes = string.IsNullOrWhiteSpace(release.Notes) ? "" : release.Notes.Trim();
+            // Release notes are Markdown; drop the symbols that would show up literally
+            notes = System.Text.RegularExpressions.Regex.Replace(notes, @"\*\*|__|`", "");
+            notes = System.Text.RegularExpressions.Regex.Replace(notes, @"^#+\s*", "", System.Text.RegularExpressions.RegexOptions.Multiline);
             if (notes.Length > 600) notes = notes.Substring(0, 600) + "…";
             if (!Dialog.Show(this, $"Update to BatteryOne {Versions.Display(release.AppVersion)}?",
                     (notes.Length > 0 ? notes + "\n\n" : "") + "BatteryOne will download the update and restart.", "Update"))
