@@ -1,0 +1,38 @@
+{
+  "Name": "BatteryOne",
+  "Version": "1.0.0.0",
+  "Author": "BatteryOne contributors",
+  "Description": "Shows the battery level of the Heusinkveld One steering wheel, read by the BatteryOne app.",
+  "URL": "https://github.com/Jaizu/BatteryOne",
+  "UUID": "com.batteryone.wheel",
+  "Icon": "images/plugin",
+  "Category": "BatteryOne",
+  "CategoryIcon": "images/category",
+  "CodePathWin": "BatteryOne.StreamDeck.exe",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "6.0"
+  },
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Actions": [
+    {
+      "UUID": "com.batteryone.wheel.battery",
+      "Name": "Wheel battery",
+      "Tooltip": "Battery level of the Heusinkveld One wheel. Press to refresh.",
+      "Icon": "images/action",
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false,
+      "States": [
+        {
+          "Image": "images/key",
+          "ShowTitle": false
+        }
+      ]
+    }
+  ]
+}

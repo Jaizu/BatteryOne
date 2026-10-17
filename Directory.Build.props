@@ -1,0 +1,11 @@
+<Project>
+  <!--
+    Versions. Bump these when releasing:
+      AppVersion    - BatteryOne.exe (the GitHub release tag is v$(AppVersion))
+      PluginVersion - the Stream Deck plugin; only bump it when the plugin changes
+  -->
+  <PropertyGroup>
+    <AppVersion>1.0.0</AppVersion>
+    <PluginVersion>1.0.0</PluginVersion>
+  </PropertyGroup>
+</Project>

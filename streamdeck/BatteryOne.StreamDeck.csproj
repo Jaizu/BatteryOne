@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>BatteryOne.StreamDeck</AssemblyName>
+    <RootNamespace>BatteryOne.StreamDeck</RootNamespace>
+    <ApplicationIcon>..\Assets\BatteryOne.ico</ApplicationIcon>
+    <Version>$(PluginVersion)</Version>
+    <Product>BatteryOne Stream Deck plugin</Product>
+    <Copyright>Copyright (c) 2026 BatteryOne contributors. MIT License.</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <!-- Same drawing code as the BatteryOne tray icon -->
+    <Compile Include="..\src\BatteryIcon.cs" Link="Shared\BatteryIcon.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="com.batteryone.wheel.sdPlugin\**" />
+  </ItemGroup>
+
+</Project>

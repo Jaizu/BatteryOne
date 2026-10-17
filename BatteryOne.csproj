@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- .NET Framework 4.8 ships with Windows 10/11, so the exe runs without installing anything -->
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>BatteryOne</AssemblyName>
+    <RootNamespace>BatteryOne</RootNamespace>
+    <ApplicationIcon>Assets\BatteryOne.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Version>$(AppVersion)</Version>
+    <Product>BatteryOne</Product>
+    <Description>Battery level of the Heusinkveld One steering wheel</Description>
+    <Copyright>Copyright (c) 2026 BatteryOne contributors. MIT License.</Copyright>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <!-- Lets the app know which plugin version it carries -->
+    <AssemblyMetadata Include="PluginVersion" Value="$(PluginVersion)" />
+  </ItemGroup>
+
+  <!-- Build the Stream Deck plugin first and embed its package, so BatteryOne can install it -->
+  <ItemGroup>
+    <ProjectReference Include="streamdeck\BatteryOne.StreamDeck.csproj" ReferenceOutputAssembly="false" Private="false" />
+  </ItemGroup>
+
+  <Target Name="EmbedStreamDeckPlugin" AfterTargets="ResolveReferences">
+    <PropertyGroup>
+      <SdPluginName>com.batteryone.wheel.sdPlugin</SdPluginName>
+      <SdStage>$(IntermediateOutputPath)sdplugin\</SdStage>
+      <SdPackage>$(IntermediateOutputPath)BatteryOne.streamDeckPlugin</SdPackage>
+    </PropertyGroup>
+    <ItemGroup>
+      <SdTemplate Include="streamdeck\$(SdPluginName)\**\*" />
+    </ItemGroup>
+    <RemoveDir Directories="$(SdStage)" />
+    <Copy SourceFiles="@(SdTemplate)" DestinationFiles="@(SdTemplate->'$(SdStage)$(SdPluginName)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="streamdeck\bin\$(Configuration)\net48\BatteryOne.StreamDeck.exe" DestinationFolder="$(SdStage)$(SdPluginName)" />
+    <!-- Stamp the plugin version into the manifest (Stream Deck uses four-part versions) -->
+    <PropertyGroup>
+      <SdManifest>$(SdStage)$(SdPluginName)\manifest.json</SdManifest>
+      <SdManifestText>$([System.IO.File]::ReadAllText('$(SdManifest)'))</SdManifestText>
+      <SdManifestText>$([System.Text.RegularExpressions.Regex]::Replace('$(SdManifestText)', '"Version":\s*"[^"]*"', '"Version": "$(PluginVersion).0"'))</SdManifestText>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(SdManifest)" Lines="$(SdManifestText)" Overwrite="true" WriteOnlyWhenDifferent="false" />
+    <!-- A .streamDeckPlugin file is a zip archive containing the .sdPlugin folder -->
+    <ZipDirectory SourceDirectory="$(SdStage)" DestinationFile="$(SdPackage)" Overwrite="true" />
+    <ItemGroup>
+      <EmbeddedResource Include="$(SdPackage)" LogicalName="BatteryOne.streamDeckPlugin" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <Resource Include="Assets\BatteryOne.ico" />
+  </ItemGroup>
+
+  <!-- The Stream Deck plugin is a separate project -->
+  <ItemGroup>
+    <Compile Remove="streamdeck\**" />
+    <None Remove="streamdeck\**" />
+    <Page Remove="streamdeck\**" />
+  </ItemGroup>
+
+</Project>
