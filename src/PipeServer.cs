@@ -13,6 +13,7 @@ namespace BatteryOne
     /// Connect to the named pipe \\.\pipe\BatteryOne, send one line, and read one line of JSON back:
     ///   "status"  - the last reading
     ///   "refresh" - reads the wheel now, then answers
+    /// "charging" is true while the wheel is on the charger (it does not send inputs then).
     /// Also writes the path of BatteryOne.exe to %APPDATA%\BatteryOne\app-path.txt so clients can start it.
     /// </summary>
     public static class PipeServer
@@ -90,6 +91,8 @@ namespace BatteryOne
             if (b != null)
             {
                 sb.AppendFormat(CultureInfo.InvariantCulture, ",\"percent\":{0}", b.Percent);
+                // The state stays "connected" while charging, so older plugins still show the percentage
+                sb.AppendFormat(",\"charging\":{0}", b.IsCharging ? "true" : "false");
                 sb.AppendFormat(",\"status\":{0}", Quote(b.Status));
                 sb.AppendFormat(",\"health\":{0}", Quote(b.Health));
                 sb.AppendFormat(",\"detail\":{0}", Quote(b.DetailText));

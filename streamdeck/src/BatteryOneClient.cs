@@ -14,6 +14,7 @@ namespace BatteryOne.StreamDeck
     {
         public string State;      // checking, connected, wheelOff, dongleNotFound, error
         public int Percent;
+        public bool Charging;     // on the charger; the wheel does not send inputs then
         public int LowThreshold = 20;
         public string Status;
         public string Detail;
@@ -56,6 +57,7 @@ namespace BatteryOne.StreamDeck
             {
                 State = d.TryGetValue("state", out object v) ? v as string : "error",
                 Percent = d.TryGetValue("percent", out v) && v is int p ? p : 0,
+                Charging = d.TryGetValue("charging", out v) && v is bool c && c,
                 LowThreshold = d.TryGetValue("lowThreshold", out v) && v is int t ? t : 20,
                 Status = d.TryGetValue("status", out v) ? v as string : null,
                 Detail = d.TryGetValue("detail", out v) ? v as string : null,

@@ -13,6 +13,7 @@ A small Windows app that shows the battery level of the **Heusinkveld One steeri
 ## Features
 
 - Shows whether the wheel is **connected**, its **battery percentage**, whether it is charging, and the battery health
+- **Charging mode**: while the wheel is on the charger (it does not send inputs then) the app, tray icon and Stream Deck key turn blue, with the time until full
 - Shows **OFF** when the wheel is switched off or out of range, or when the USB dongle is not plugged in
 - Optional **notification-area (tray) icon** with the percentage, coloured green / orange / red, and a notification when the battery gets low
 - Optional **Start with Windows**: starts in the background when you sign in
@@ -122,7 +123,7 @@ The wheel talks to the PC through its USB dongle (USB vendor ID `0x30B7`, produc
 
    | Byte | Content |
    | --- | --- |
-   | 3 | USB cable status |
+   | 3 | USB cable status (1 = on the charger) |
    | 4 | Battery percentage |
    | 5–8 | Remaining time in seconds (uint32, `0xFFFFFFFF` = unknown) |
    | 9 | Status: 0 unknown, 1 charging, 2 discharging, 3 not charging, 4 full |
@@ -140,10 +141,10 @@ While it runs, BatteryOne answers on the named pipe `\\.\pipe\BatteryOne`. Conne
 | `refresh` | Reads the wheel now, then answers |
 
 ```json
-{"state":"connected","refreshing":false,"lowThreshold":20,"percent":88,"status":"Discharging","health":"Good","detail":"Discharging · Health: Good","updated":"2026-10-17T16:30:52"}
+{"state":"connected","refreshing":false,"lowThreshold":20,"percent":88,"charging":false,"status":"Discharging","health":"Good","detail":"Discharging · Health: Good","updated":"2026-10-17T16:30:52"}
 ```
 
-`state` is one of `checking`, `connected`, `wheelOff`, `dongleNotFound` or `error`. Quick test from PowerShell:
+`state` is one of `checking`, `connected`, `wheelOff`, `dongleNotFound` or `error`. `charging` is true while the wheel is on the charger; `state` stays `connected` then. Quick test from PowerShell:
 
 ```powershell
 $p = New-Object IO.Pipes.NamedPipeClientStream('.', 'BatteryOne', 'InOut'); $p.Connect(1000)

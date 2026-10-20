@@ -45,7 +45,7 @@ namespace BatteryOne
 
         static Drawing.Icon Render(WheelBattery b, int lowThreshold)
         {
-            using (var bmp = BatteryIcon.Render(32, b != null, b != null && b.IsConnected, b?.Percent ?? 0, lowThreshold))
+            using (var bmp = BatteryIcon.Render(32, b != null, b != null && b.IsConnected, b?.Percent ?? 0, lowThreshold, b != null && b.IsCharging))
             {
                 IntPtr handle = bmp.GetHicon();
                 var icon = (Drawing.Icon)Drawing.Icon.FromHandle(handle).Clone();

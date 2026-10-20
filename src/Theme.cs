@@ -50,6 +50,7 @@ namespace BatteryOne
                 Set(r, "Warning", "#FCB040");
                 Set(r, "Critical", "#FF99A4");
                 Set(r, "Neutral", "#9A9A9A");
+                Set(r, "Charging", "#4CC2FF");
                 Set(r, "ButtonBg", "#2D2D2D");
                 Set(r, "ButtonHover", "#383838");
                 Set(r, "ButtonBorder", "#3F3F3F");
@@ -75,6 +76,7 @@ namespace BatteryOne
                 Set(r, "Warning", "#9D5D00");
                 Set(r, "Critical", "#C42B1C");
                 Set(r, "Neutral", "#8A8A8A");
+                Set(r, "Charging", "#0067C0");
                 Set(r, "ButtonBg", "#FBFBFB");
                 Set(r, "ButtonHover", "#F3F3F3");
                 Set(r, "ButtonBorder", "#D9D9D9");

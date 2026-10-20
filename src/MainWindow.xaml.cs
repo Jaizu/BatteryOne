@@ -148,7 +148,8 @@ namespace BatteryOne
             {
                 PercentText.Text = $"{b.Percent}%";
                 SetBar(b.Percent);
-                SetColor(b.Percent <= _app.Settings.LowThreshold ? "Critical" : b.Percent <= 50 ? "Warning" : "Good");
+                SetColor(b.IsCharging ? "Charging"
+                    : b.Percent <= _app.Settings.LowThreshold ? "Critical" : b.Percent <= 50 ? "Warning" : "Good");
             }
             else
             {

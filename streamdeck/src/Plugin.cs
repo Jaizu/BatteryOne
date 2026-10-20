@@ -147,7 +147,7 @@ namespace BatteryOne.StreamDeck
         {
             Drawing.Bitmap bmp = status == null
                 ? RenderAppClosed()
-                : BatteryIcon.Render(KeySize, status.Known, status.Connected, status.Percent, status.LowThreshold);
+                : BatteryIcon.Render(KeySize, status.Known, status.Connected, status.Percent, status.LowThreshold, status.Charging);
             string image = ToDataUrl(bmp);
             if (!force && image == _lastImage) return Task.CompletedTask;
             return ShowOnAllKeys(image, remember: true);

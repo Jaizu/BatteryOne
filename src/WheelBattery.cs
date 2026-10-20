@@ -12,10 +12,13 @@ namespace BatteryOne
         public string Health { get; private set; }
         public TimeSpan? Remaining { get; private set; }
         public string Error { get; private set; }
+        public bool CablePlugged { get; private set; }
         public DateTime Time { get; private set; } = DateTime.Now;
 
         public bool IsConnected => State == WheelState.Connected;
-        public bool IsCharging => Status == "Charging";
+        /// <summary>The wheel is on its charging cable. It does not send inputs then, so it cannot be used to drive.</summary>
+        public bool IsCharging => IsConnected && (CablePlugged || Status == "Charging");
+        public bool IsFull => Status == "Full";
 
         const ushort VendorId = 0x30B7; // Heusinkveld
         const ushort DongleId = 0x1008; // One Steering Wheel USB dongle
@@ -45,6 +48,7 @@ namespace BatteryOne
                 return new WheelBattery
                 {
                     State = WheelState.Connected,
+                    CablePlugged = r[3] != 0,
                     Percent = Math.Min(100, (int)r[4]),
                     // The wheel sends 0xFFFFFFFF when it does not know the remaining time
                     Remaining = seconds > 0 && seconds < 1000 * 3600 ? TimeSpan.FromSeconds(seconds) : (TimeSpan?)null,
@@ -64,7 +68,7 @@ namespace BatteryOne
             {
                 switch (State)
                 {
-                    case WheelState.Connected: return "Connected";
+                    case WheelState.Connected: return !IsCharging ? "Connected" : IsFull ? "Charged" : "Charging";
                     case WheelState.WheelOff: return "Not connected";
                     case WheelState.DongleNotFound: return "Not connected";
                     default: return "Error";
@@ -80,8 +84,11 @@ namespace BatteryOne
                 {
                     case WheelState.Connected:
                         string text = Status;
-                        if (Remaining.HasValue) text += $" · {(int)Remaining.Value.TotalHours}h {Remaining.Value.Minutes:00}m left";
-                        return text + $" · Health: {Health}";
+                        if (Remaining.HasValue && !IsFull)
+                            text += $" · {(int)Remaining.Value.TotalHours}h {Remaining.Value.Minutes:00}m {(IsCharging ? "to full" : "left")}";
+                        text += $" · Health: {Health}";
+                        if (IsCharging) text += "\nThe wheel does not send inputs while it is on the charger.";
+                        return text;
                     case WheelState.WheelOff: return "The wheel is off or out of range";
                     case WheelState.DongleNotFound: return "USB dongle not found";
                     default: return Error;
