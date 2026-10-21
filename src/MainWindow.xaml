@@ -1,7 +1,7 @@
 <Window x:Class="BatteryOne.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="BatteryOne" Width="460" SizeToContent="Height" ResizeMode="CanMinimize"
+        Title="BatteryOne" Icon="pack://application:,,,/BatteryOne;component/Assets/BatteryOne.ico" Width="460" SizeToContent="Height" ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource WindowBg}" Foreground="{DynamicResource TextPrimary}"
         FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="14"
