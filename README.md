@@ -5,7 +5,10 @@
 
 A small Windows app that shows the battery level of the **Heusinkveld One steering wheel**, so you don't have to keep SmartControl open.
 
-<img src="docs/screenshot.png" alt="BatteryOne window" width="380">
+<p>
+  <img src="docs/screenshot.png" alt="BatteryOne window" height="480">
+  <img src="docs/screenshot-streamdeck.png" alt="BatteryOne Wheel battery action in the Stream Deck app" height="480">
+</p>
 
 ## Features
 
