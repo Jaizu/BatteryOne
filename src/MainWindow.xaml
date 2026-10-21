@@ -169,15 +169,25 @@
             </StackPanel>
         </Border>
 
-        <!-- Exit -->
-        <Button x:Name="ExitButton" Style="{StaticResource DangerButton}" HorizontalAlignment="Right" Margin="0,20,0,0"
-                Click="Exit_Click" ToolTip="Close BatteryOne completely" AutomationProperties.Name="Exit BatteryOne">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7E8;" FontSize="13"
-                           VerticalAlignment="Center" Margin="0,1,8,0" />
-                <TextBlock Text="Exit BatteryOne" />
-            </StackPanel>
-        </Button>
+        <!-- Donate / Exit -->
+        <DockPanel Margin="0,20,0,0" LastChildFill="False">
+            <Button x:Name="DonateButton" DockPanel.Dock="Left" Style="{StaticResource StandardButton}"
+                    Click="Donate_Click" ToolTip="ko-fi.com/jaizu" AutomationProperties.Name="Support BatteryOne on Ko-fi">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xEB51;" FontSize="13"
+                               Foreground="#FF5E5B" VerticalAlignment="Center" Margin="0,1,8,0" />
+                    <TextBlock Text="Support on Ko-fi" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="ExitButton" DockPanel.Dock="Right" Style="{StaticResource DangerButton}"
+                    Click="Exit_Click" ToolTip="Close BatteryOne completely" AutomationProperties.Name="Exit BatteryOne">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7E8;" FontSize="13"
+                               VerticalAlignment="Center" Margin="0,1,8,0" />
+                    <TextBlock Text="Exit BatteryOne" />
+                </StackPanel>
+            </Button>
+        </DockPanel>
     </StackPanel>
     </ScrollViewer>
 </Window>

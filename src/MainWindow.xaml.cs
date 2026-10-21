@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
@@ -243,6 +244,11 @@ namespace BatteryOne
         }
 
         void Refresh_Click(object sender, RoutedEventArgs e) => _app.Refresh();
+
+        void Donate_Click(object sender, RoutedEventArgs e)
+        {
+            try { Process.Start(new ProcessStartInfo("https://ko-fi.com/jaizu") { UseShellExecute = true }); } catch { }
+        }
 
         void Exit_Click(object sender, RoutedEventArgs e) => _app.RequestExit(this);
 
