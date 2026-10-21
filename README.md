@@ -5,10 +5,7 @@
 
 A small Windows app that shows the battery level of the **Heusinkveld One steering wheel**, so you don't have to keep SmartControl open.
 
-<p>
-  <img src="docs/screenshot-light.png" alt="BatteryOne in light mode" width="380">
-  <img src="docs/screenshot-dark.png" alt="BatteryOne in dark mode" width="380">
-</p>
+<img src="docs/screenshot.png" alt="BatteryOne window" width="380">
 
 ## Features
 
