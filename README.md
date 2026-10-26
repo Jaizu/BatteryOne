@@ -15,7 +15,7 @@ A small Windows app that shows the battery level of the **Heusinkveld One steeri
 - Shows whether the wheel is **connected**, its **battery percentage**, whether it is charging, and the battery health
 - **Charging mode**: while the wheel is on the charger (it does not send inputs then) the app, tray icon and Stream Deck key turn blue, with the time until full
 - Shows **OFF** when the wheel is switched off or out of range, or when the USB dongle is not plugged in
-- Optional **notification-area (tray) icon** with the percentage, coloured green / orange / red, and a notification when the battery gets low
+- Optional **notification-area (tray) icon** with the percentage, coloured green / orange / red, and a notification when the battery gets low. It is hidden while the USB dongle is unplugged
 - Optional **Start with Windows**: starts in the background when you sign in
 - **Light and dark mode**: follows the Windows setting, or choose one
 - **Stream Deck plugin**: shows the same icon on a Stream Deck key. Press the key to refresh.

@@ -99,7 +99,8 @@ namespace BatteryOne
             try { AutoStart.RefreshPath(); } catch { }
             PipeServer.Start(this);
 
-            _tray = new TrayIcon(this) { Visible = Settings.ShowTrayIcon };
+            // Hidden until the first read tells whether the dongle is plugged in
+            _tray = new TrayIcon(this) { Visible = false };
             _window = new MainWindow(this);
 
             if (!_startInBackground) ShowMainWindow();
@@ -236,6 +237,7 @@ namespace BatteryOne
             finally { IsRefreshing = false; }
 
             _tray.Update(Battery, Settings.LowThreshold);
+            UpdateTrayVisibility();
             if (Battery.IsConnected && Battery.Percent <= Settings.LowThreshold && !Battery.IsCharging)
             {
                 if (!_lowWarned && _tray.Visible) _tray.ShowLowBattery(Battery);
@@ -261,8 +263,12 @@ namespace BatteryOne
         {
             Settings.ShowTrayIcon = visible;
             Settings.Save();
-            _tray.Visible = visible;
+            UpdateTrayVisibility();
         }
+
+        /// <summary>The tray icon is shown when the setting is on and the USB dongle is plugged in.</summary>
+        void UpdateTrayVisibility() =>
+            _tray.Visible = Settings.ShowTrayIcon && Battery != null && Battery.State != WheelState.DongleNotFound;
 
         public void SetKeepRunningInBackground(bool enabled)
         {
